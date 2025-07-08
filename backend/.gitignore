@@ -1,0 +1,14 @@
+# Node modules
+node_modules/
+
+# Carpeta de compilados o builds
+dist/
+
+# Archivos de log
+*.log
+
+# Base de datos SQLite
+src/db/tasks.db
+
+# Variables de entorno
+.env
