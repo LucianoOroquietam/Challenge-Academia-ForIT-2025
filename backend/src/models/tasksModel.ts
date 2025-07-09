@@ -64,9 +64,9 @@ export function insertTask(title: string, description: string, completed: boolea
 }
 
 //editar tarea
-export function updateTask(id: number, title: string, description: string, completed: boolean, createdAt: Date): Promise<Task | undefined> {
+export function updateTask(id: number, title: string, description: string, completed: boolean): Promise<Task | undefined> {
   return new Promise((resolve, reject) => {
-    db.run('UPDATE tasks SET title = ?, description = ?, completed = ?, createdAt = ? WHERE id = ?', [title, description, completed, createdAt, id],
+    db.run('UPDATE tasks SET title = ?, description = ?, completed = ? WHERE id = ?', [title, description, completed, id],
       function (err: any) {
         if (err) {
           reject(err);
@@ -75,8 +75,7 @@ export function updateTask(id: number, title: string, description: string, compl
             id,
             title,
             description,
-            completed,
-            createdAt: createdAt.toISOString(),
+            completed
           };
           if (this.changes === 0) {
             resolve(undefined);

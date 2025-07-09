@@ -70,20 +70,18 @@ export const createTask: RequestHandler = async (_req, res) => {
 export const editTask: RequestHandler = async (_req, res) => {
     try {
         const id = Number(_req.params.id);
-        const { title, description, completed, createdAt } = _req.body;
+        const { title, description, completed } = _req.body;
 
         const taskData = {
             id,
             title,
             description,
             completed: Boolean(completed),
-            createdAt,
         };
 
         validateTask(taskData);
 
-        const parsedDate = new Date(createdAt);
-        const taskEdit = await updateTask(id, title, description, Boolean(completed), parsedDate);
+        const taskEdit = await updateTask(id, title, description, Boolean(completed));
 
         if (taskEdit) {
             res.status(200).json(taskEdit);

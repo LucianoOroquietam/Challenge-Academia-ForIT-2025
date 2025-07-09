@@ -34,11 +34,5 @@ export function validateTask(params: Task): true {
         throw new Error("El campo 'completed' debe ser un booleano");
     }
 
-    //fecha 
-    const date = new Date(createdAt);
-    if (!createdAt || isNaN(date.getTime())) {
-        throw new Error("La fecha no es valida");
-    }
-
     return true;
 }
