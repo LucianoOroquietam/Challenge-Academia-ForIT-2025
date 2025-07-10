@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import type { FormEvent } from 'react';
+import type { FormEvent,  ChangeEvent } from 'react';
 import type { Task } from '../../interface/Task';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -37,7 +37,7 @@ const TaskForm = () => {
   }, [id]);
 
   //el objetivo aca es actualizar el estado cuando el usuario escribe en el input o checkea
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const target = e.target;
     const name = target.name;
     const type = target.type;
@@ -80,14 +80,19 @@ const TaskForm = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(task),
       });
-      if (res.ok) {
-        setSuccessMessage('La tarea se edito con exito');
 
+      if (method == 'PUT' && res.status === 200) {
+        setSuccessMessage('La tarea se edito con exito');
         setTimeout(() => {
           navigate('/');
         }, 1000);
-      } else {
-        console.error('Error al guardar tarea');
+      } else if (method == 'POST' && res.status === 201) {
+        setSuccessMessage('La tarea se creo con exito');
+        setTimeout(() => {
+          navigate('/');
+        }, 1000);
+      }else {
+        console.error('Error al guardar o editar la tarea');
       }
     } catch (error) {
       console.error('Error en la petición:', error);
@@ -101,12 +106,13 @@ const TaskForm = () => {
       {successMessage && (
         <p className="text-green-500 font-semibold mb-4 text-center bg-gray-900 p-2">{successMessage}</p>
       )}
+
       <h2 className="text-2xl font-bold text-center">
         {id ? 'Editar tarea' : 'Nueva tarea'}
       </h2>
 
       <div>
-        <label className="block mb-1 font-semibold">Titulo</label>
+        <label className="block mb-1 font-semibold">Titulo <span className='text-red-500'>*</span></label>
         <input
           name="title"
           value={task.title}
@@ -117,12 +123,13 @@ const TaskForm = () => {
       </div>
 
       <div>
-        <label className="block mb-1 font-semibold">Descripcion</label>
+        <label className="block mb-1 font-semibold">Descripcion {id && <span className="text-red-500">*</span>}</label>
         <textarea
           name="description"
           value={task.description}
           onChange={handleChange}
           className="w-full p-2 border rounded"
+          required={Boolean(id)}
         />
       </div>
 
@@ -133,12 +140,12 @@ const TaskForm = () => {
           checked={task.completed}
           onChange={handleChange}
         />
-        <label className="font-semibold">¿Completada?</label>
+        <label className="font-semibold">¿Completada? <span className='text-red-500'>*</span></label>
       </div>
 
       <button
         type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer"
       >
         {id ? 'Guardar cambios' : 'Crear tarea'}
       </button>
