@@ -100,7 +100,7 @@ Visualización de los registros persistidos en la tabla `tasks`:
 
 ### Formulario de creación
 
-![Task Form](./screenshots/taskform.webp)
+![Task Form](./screenshots/taskForm.webp)
 
 ### Tareas por id
 
