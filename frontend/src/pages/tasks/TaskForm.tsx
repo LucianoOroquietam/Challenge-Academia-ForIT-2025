@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import type { FormEvent,  ChangeEvent } from 'react';
+import type { FormEvent, ChangeEvent } from 'react';
 import type { Task } from '../../interface/Task';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -50,19 +50,11 @@ const TaskForm = () => {
     } else {
       value = target.value;
     }
-
-    console.log("Campo cambiado:", name);
-    console.log("Nuevo valor:", value);
-    console.log("Tipo de input:", type);
-
-
     // creamos una copia del estado actual
     const newTask = {
       ...task,
       [name]: value,
     };
-
-    console.log("Nuevo estado de task:", newTask);
 
     setTask(newTask as Task);
   };
@@ -91,7 +83,7 @@ const TaskForm = () => {
         setTimeout(() => {
           navigate('/');
         }, 1000);
-      }else {
+      } else {
         console.error('Error al guardar o editar la tarea');
       }
     } catch (error) {
@@ -143,12 +135,10 @@ const TaskForm = () => {
         <label className="font-semibold">¿Completada? <span className='text-red-500'>*</span></label>
       </div>
 
-      <button
-        type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer"
-      >
+      <button className="bg-black text-white rounded-sm px-4 py-2 cursor-pointer">
         {id ? 'Guardar cambios' : 'Crear tarea'}
       </button>
+      
     </form>
   );
 };

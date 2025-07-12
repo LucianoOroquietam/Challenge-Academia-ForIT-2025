@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+}
